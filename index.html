@@ -78,6 +78,7 @@
                     <label for="year-filter" class="block text-sm font-medium text-gray-700 mb-1">Filter by Year</label>
                     <select id="year-filter" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
                         <option value="all">All Years</option>
+                        <option value="2026">2026</option>
                         <option value="2027">2027</option>
                         <option value="2028">2028</option>
                         <option value="2029">2029</option>
@@ -140,6 +141,38 @@
         
         // Locations updated based on "Philippine Renewable Energy Project Search.pdf"
         const projects = [
+            { id: 1, year: 2026, grid: "Luzon", type: "IRESS", facilityName: "Bolbok 3 Solar Power Project; Phase 1", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 13.682, lon: 121.055 },
+            { id: 2, year: 2026, grid: "Visayas", type: "IRESS", facilityName: "Silay 2D Solar Power Project; Phase 1", developer: "Citicore Renewable Energy Corporation", capacity: 35.710, lat: 10.793, lon: 123.008 },
+            { id: 3, year: 2026, grid: "Mindanao", type: "IRESS", facilityName: "Tantangan Solar Power Project; Phase 2", developer: "Apolaki Seven Inc.", capacity: 13.380, lat: 6.641, lon: 124.782 },
+            { id: 4, year: 2026, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Castilla Solar Power Plant", developer: "Equator Energy Corporation", capacity: 39.984, lat: 12.964, lon: 123.871 },
+            { id: 5, year: 2026, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Ecopark Isla Solar Power Plant", developer: "Ecopark Energy of Valenzuela Corp.", capacity: 4.035, lat: 14.70, lon: 120.98 },
+            { id: 6, year: 2026, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Ecopark Tagalag Solar Power Plant", developer: "Ecopark Energy of Valenzuela Corp.", capacity: 14.700, lat: 14.72, lon: 120.96 },
+            { id: 7, year: 2026, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Pagbilao 3 Solar Power Project; Phase 1", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 13.972, lon: 121.753 },
+            { id: 8, year: 2026, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Pagbilao 3 Solar Power Project; Phase 2", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 13.972, lon: 121.753 },
+            { id: 9, year: 2026, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "San Lorenzo Ruiz Solar Power Plant", developer: "East Cornerstone Development Corp.", capacity: 5.000, lat: 14.125, lon: 122.842 },
+            { id: 10, year: 2026, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Capantolan Solar Power Project", developer: "Pacific Impact Energy Corp.", capacity: 42.000, lat: 16.071, lon: 120.095 },
+            { id: 11, year: 2026, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Magahis Solar Power Plant Project; Phase I", developer: "Tuy Solar Power Corporation", capacity: 170.000, lat: 14.024, lon: 120.731 },
+            { id: 12, year: 2026, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Bolbok 4 Solar Power Project; Phase 1", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 13.682, lon: 121.055 },
+            { id: 13, year: 2026, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Luntal Solar Power Project", developer: "Citicore Solar Batangas 1, Inc.", capacity: 50.000, lat: 14.032, lon: 120.725 },
+            { id: 14, year: 2026, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Bolbok 5 Solar Power Project; Phase 2", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 13.682, lon: 121.055 },
+            { id: 15, year: 2026, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Lumbangan Solar Power Project", developer: "Citicore Solar Batangas 1, Inc.", capacity: 90.000, lat: 14.043, lon: 120.732 },
+            { id: 16, year: 2026, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Bolbok 5 Solar Power Project; Phase1", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 13.682, lon: 121.055 },
+            { id: 17, year: 2026, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Bolbok 5 Solar Power Project; Phase 3", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 13.682, lon: 121.055 },
+            { id: 18, year: 2026, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Bolbok 4 Solar Power Project; Phase 2", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 13.682, lon: 121.055 },
+            { id: 19, year: 2026, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Bolbok 4 Solar Power Project Phase 3", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 13.682, lon: 121.055 },
+            { id: 20, year: 2026, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Bataan Solar Power Project", developer: "Tai Yang 1 Power Inc.", capacity: 16.500, lat: 14.76, lon: 120.54 },
+            { id: 21, year: 2026, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Sual Solar Power Plant", developer: "Renovable Earth Corp.", capacity: 33.000, lat: 16.071, lon: 120.095 },
+            { id: 22, year: 2026, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Sapang Balen Solar 2 Power Project", developer: "Sapang Balen Solar Sustainable Energy Corp.", capacity: 90.000, lat: 15.174, lon: 120.598 },
+            { id: 23, year: 2026, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Isabela Ground Mounted Solar PV Project; Phase 1", developer: "San Ignacio Energy Resources Development Corporation", capacity: 96.473, lat: 17.152, lon: 121.776 },
+            { id: 24, year: 2026, grid: "Visayas", type: "GROUND-MOUNTED SOLAR", facilityName: "Sikatuna Solar Power Project", developer: "Bohol Solar Energy Inc.", capacity: 37.884, lat: 9.805, lon: 124.032 },
+            { id: 25, year: 2026, grid: "Visayas", type: "GROUND-MOUNTED SOLAR", facilityName: "Vista Alegre Solar Power Project", developer: "Amatera Renewable Energy Corporation", capacity: 50.100, lat: 10.96, lon: 123.30 },
+            { id: 26, year: 2026, grid: "Visayas", type: "GROUND-MOUNTED SOLAR", facilityName: "Daanbantayan Solar Power Project", developer: "Freya Renewables Inc.", capacity: 150.000, lat: 11.261, lon: 124.025 },
+            { id: 27, year: 2026, grid: "Mindanao", type: "GROUND-MOUNTED SOLAR", facilityName: "Pagayawan Solar Power Plant Project", developer: "Pagayawan Renewable Energy Corp.", capacity: 20.000, lat: 7.824, lon: 124.402 },
+            { id: 28, year: 2026, grid: "Mindanao", type: "GROUND-MOUNTED SOLAR", facilityName: "Malita Solar Power Project; Phase 1", developer: "SMC Global Light and Power Corp.", capacity: 108.000, lat: 6.415, lon: 125.613 },
+            { id: 29, year: 2026, grid: "Luzon", type: "ROOF-MOUNTED SOLAR", facilityName: "Naic Solar Rooftop Power Project", developer: "Joy-Nostalg Solaris Incorporated", capacity: 4.950, lat: 14.321, lon: 120.765 },
+            { id: 30, year: 2026, grid: "Luzon", type: "ROOF-MOUNTED SOLAR", facilityName: "Ning Ning Muzon-Labac Rooftop Solar Power Project", developer: "Joy-Nostalg Solaris Incorporated", capacity: 10.497, lat: 13.784, lon: 121.052 },
+            { id: 31, year: 2026, grid: "Luzon", type: "ONSHORE WIND", facilityName: "Kalayaan 2 Wind Power Project", developer: "Laguna Wind Energy Corp.", capacity: 100.800, lat: 14.335, lon: 121.492 },
+            { id: 32, year: 2026, grid: "Luzon", type: "ONSHORE WIND", facilityName: "South Eastern Wind Power Project", developer: "Econergy Renewable Power Philippines Inc.", capacity: 49.990, lat: 12.91, lon: 124.12 },
             { id: 33, year: 2027, grid: "Luzon", type: "IRESS", facilityName: "Bolbok 3 Solar Power Project Phase 2", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 13.682, lon: 121.055 }, // Batangas City, Batangas
             { id: 34, year: 2027, grid: "Visayas", type: "IRESS", facilityName: "Barotac Viejo Solar Power Project", developer: "Magallanes Solar Energy Corp.", capacity: 67.000, lat: 11.052, lon: 122.953 }, // Barotac Viejo, Iloilo
             { id: 35, year: 2027, grid: "Visayas", type: "IRESS", facilityName: "Silay 2C Solar Power Project; Phase 1", developer: "Citicore Renewable Energy Corporation", capacity: 38.000, lat: 10.793, lon: 123.008 }, // Silay City, Negros Occidental
