@@ -31,6 +31,8 @@
         /* Modal styles */
         #project-modal { transition: opacity 0.3s ease-in-out; }
         #project-modal-content { transition: transform 0.3s ease-in-out; }
+        .panel-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out; }
+        .panel-arrow { transition: transform 0.3s; }
     </style>
 </head>
 <body class="antialiased text-gray-800">
@@ -57,6 +59,17 @@
          <!-- Map Section -->
         <div id="map" class="w-full h-96 md:h-[500px] mb-8 rounded-2xl shadow-lg border-2 border-white"></div>
         <p class="text-xs text-center text-gray-500 -mt-6 mb-8">Note: Project locations on the map are based on DOE's public data and may be approximate.</p>
+
+        <!-- Subscription Panels -->
+        <div class="space-y-4 mb-8">
+            <div class="bg-white p-6 rounded-2xl shadow-lg">
+                <button id="rate-panel-toggle" class="w-full text-left font-bold text-lg text-gray-800 flex justify-between items-center">
+                    <span>GEA-4 Subscription Rates (%)</span>
+                    <span id="rate-arrow" class="panel-arrow">▼</span>
+                </button>
+                <div id="rate-panel-content" class="panel-content"></div>
+            </div>
+        </div>
 
         <div class="bg-white p-6 rounded-2xl shadow-lg">
             <!-- Filters Section -->
@@ -139,6 +152,13 @@
             "IRESS": { title: "IRESS (Solar + Storage) Assumptions", data: { "Net Capacity Factor (Solar)": "19.00%", "Plant Degradation": "0.50% / year", "Economic Useful Life": "25 Years" } },
         };
         
+        const gea4Targets = {
+            2026: { "Luzon": { "GROUND-MOUNTED SOLAR": 1000, "ROOF-MOUNTED SOLAR": 12, "FLOATING SOLAR": 1040, "ONSHORE WIND": 320, "IRESS": 50 }, "Visayas": { "GROUND-MOUNTED SOLAR": 240, "ROOF-MOUNTED SOLAR": 12, "FLOATING SOLAR": 0, "ONSHORE WIND": 0, "IRESS": 100 }, "Mindanao": { "GROUND-MOUNTED SOLAR": 120, "ROOF-MOUNTED SOLAR": 0, "FLOATING SOLAR": 0, "ONSHORE WIND": 0, "IRESS": 50 } },
+            2027: { "Luzon": { "GROUND-MOUNTED SOLAR": 600, "ROOF-MOUNTED SOLAR": 6, "FLOATING SOLAR": 920, "ONSHORE WIND": 450, "IRESS": 50 }, "Visayas": { "GROUND-MOUNTED SOLAR": 180, "ROOF-MOUNTED SOLAR": 0, "FLOATING SOLAR": 0, "ONSHORE WIND": 170, "IRESS": 100 }, "Mindanao": { "GROUND-MOUNTED SOLAR": 30, "ROOF-MOUNTED SOLAR": 6, "FLOATING SOLAR": 0, "ONSHORE WIND": 0, "IRESS": 50 } },
+            2028: { "Luzon": { "GROUND-MOUNTED SOLAR": 720, "ROOF-MOUNTED SOLAR": 0, "FLOATING SOLAR": 855, "ONSHORE WIND": 450, "IRESS": 100 }, "Visayas": { "GROUND-MOUNTED SOLAR": 480, "ROOF-MOUNTED SOLAR": 0, "FLOATING SOLAR": 25, "ONSHORE WIND": 200, "IRESS": 150 }, "Mindanao": { "GROUND-MOUNTED SOLAR": 30, "ROOF-MOUNTED SOLAR": 6, "FLOATING SOLAR": 0, "ONSHORE WIND": 0, "IRESS": 100 } },
+            2029: { "Luzon": { "GROUND-MOUNTED SOLAR": 240, "ROOF-MOUNTED SOLAR": 0, "FLOATING SOLAR": 160, "ONSHORE WIND": 450, "IRESS": 100 }, "Visayas": { "GROUND-MOUNTED SOLAR": 180, "ROOF-MOUNTED SOLAR": 6, "FLOATING SOLAR": 0, "ONSHORE WIND": 150, "IRESS": 150 }, "Mindanao": { "GROUND-MOUNTED SOLAR": 120, "ROOF-MOUNTED SOLAR": 0, "FLOATING SOLAR": 0, "ONSHORE WIND": 200, "IRESS": 100 } }
+        };
+
         // Locations updated based on "Philippine Renewable Energy Project Search.pdf" and user feedback
         const projects = [
             { id: 1, year: 2026, grid: "Luzon", type: "IRESS", facilityName: "Bolbok 3 Solar Power Project; Phase 1", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 13.9687, lon: 120.7276 },
@@ -180,7 +200,7 @@
             { id: 37, year: 2027, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Atimonan Solar Power Project", developer: "Bolo Renewable Energy Corp.", capacity: 50.000, lat: 14.004, lon: 121.916 },
             { id: 38, year: 2027, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Ultra Solar Power Plant Project", developer: "Bolo Renewable Energy Corp.", capacity: 68.000, lat: 14.012, lon: 121.905 },
             { id: 39, year: 2027, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Cauayan Solar Power Project; Phase 1", developer: "SMC Global Light and Power Corp.", capacity: 270.000, lat: 16.936, lon: 121.772 },
-            { id: 40, year: 2027, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "San Vicente Solar Power Project", developer: "Citadel Energy Corporation", capacity: 140.000, lat: 10.531, lon: 119.294 },
+            { id: 40, year: 2027, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "San Vicente Solar Power Project", developer: "Citadel Energy Corporation", capacity: 140.000, lat: 14.115, lon: 122.885 },
             { id: 41, year: 2027, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Villaverde Ground-Mounted Solar-Photovoltaic Project", developer: "Verde Radiant Power Corporation", capacity: 11.840, lat: 16.513, lon: 121.012 },
             { id: 42, year: 2027, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Libmanan Solar Power Project", developer: "Green PV Energy Corporation", capacity: 49.900, lat: 13.692, lon: 123.064 },
             { id: 43, year: 2027, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Sta. Ignacia Tarlac Solar Power Plant Project Phase 1", developer: "Sta. Ignacia Tarlac Solar Power Corporation", capacity: 18.000, lat: 15.613, lon: 120.442 },
@@ -192,16 +212,16 @@
             { id: 49, year: 2027, grid: "Luzon", type: "ROOF-MOUNTED SOLAR", facilityName: "Ning Ning Catmon Sta. Maria Rooftop Solar Power Project", developer: "Joy-Nostalg Solaris Incorporated", capacity: 4.019, lat: 14.814, lon: 120.963 },
             { id: 50, year: 2027, grid: "Luzon", type: "ROOF-MOUNTED SOLAR", facilityName: "Ning Ning Dolores Magalang Rooftop Solar Power Project", developer: "Joy-Nostalg Solaris Incorporated", capacity: 5.353, lat: 15.223, lon: 120.661 },
             { id: 51, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Magat Floating Solar Power Project", developer: "Sn Aboitiz Power - Magat, Inc", capacity: 50.000, lat: 16.795, lon: 121.463 },
-            { id: 52, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Cabuyao 2 Floating PV Power Plant", developer: "Nortesol Inc.", capacity: 72.000, lat: 14.33, lon: 121.25 + (Math.random()-0.5)*0.05 },
-            { id: 53, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Cabuyao 1 Floating PV Power Plant", developer: "Nortesol II Inc.", capacity: 72.000, lat: 14.33, lon: 121.25 + (Math.random()-0.5)*0.05 },
-            { id: 54, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Calamba Floating PV Solar Power Project", developer: "Norteson Incorporated", capacity: 72.000, lat: 14.33, lon: 121.25 + (Math.random()-0.5)*0.05 },
-            { id: 55, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Cabuyao 3 Floating PV Power Plant", developer: "Nortesol IV, Inc.", capacity: 72.000, lat: 14.33, lon: 121.25 + (Math.random()-0.5)*0.05 },
-            { id: 56, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Victoria 1 Floating PV Power Plant,", developer: "Nortesollv, Inc.", capacity: 72.000, lat: 14.33, lon: 121.25 + (Math.random()-0.5)*0.05 },
-            { id: 57, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Bay 2 Floating PV Power Plant", developer: "NortesolIV, Inc.", capacity: 72.000, lat: 14.33, lon: 121.25 + (Math.random()-0.5)*0.05 },
-            { id: 58, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Cabuyao 5 Floating PV Power Plant", developer: "NEWASIA POWER ENERGY II CORP.", capacity: 72.000, lat: 14.33, lon: 121.25 + (Math.random()-0.5)*0.05 },
-            { id: 59, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Cabuyao 4 Floating Solar PV Power Plant", developer: "NEWASIA POWER ENERGY CORP.", capacity: 72.000, lat: 14.33, lon: 121.25 + (Math.random()-0.5)*0.05 },
-            { id: 60, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Bay 1 Floating PV Power Plant", developer: "Newasia Power Energy Corp.", capacity: 72.000, lat: 14.33, lon: 121.25 + (Math.random()-0.5)*0.05 },
-            { id: 61, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Sta. Rosa Floating PV Power Plant", developer: "Newasia Power Energy II Corp.", capacity: 72.000, lat: 14.33, lon: 121.25 + (Math.random()-0.5)*0.05 },
+            { id: 52, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Cabuyao 2 Floating PV Power Plant", developer: "Nortesol Inc.", capacity: 72.000, lat: 14.283, lon: 121.137 },
+            { id: 53, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Cabuyao 1 Floating PV Power Plant", developer: "Nortesol II Inc.", capacity: 72.000, lat: 14.283, lon: 121.137 },
+            { id: 54, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Calamba Floating PV Solar Power Project", developer: "Norteson Incorporated", capacity: 72.000, lat: 14.216, lon: 121.166 },
+            { id: 55, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Cabuyao 3 Floating PV Power Plant", developer: "Nortesol IV, Inc.", capacity: 72.000, lat: 14.283, lon: 121.137 },
+            { id: 56, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Victoria 1 Floating PV Power Plant,", developer: "Nortesollv, Inc.", capacity: 72.000, lat: 14.227, lon: 121.318 },
+            { id: 57, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Bay 2 Floating PV Power Plant", developer: "NortesolIV, Inc.", capacity: 72.000, lat: 14.189, lon: 121.293 },
+            { id: 58, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Cabuyao 5 Floating PV Power Plant", developer: "NEWASIA POWER ENERGY II CORP.", capacity: 72.000, lat: 14.283, lon: 121.137 },
+            { id: 59, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Cabuyao 4 Floating Solar PV Power Plant", developer: "NEWASIA POWER ENERGY CORP.", capacity: 72.000, lat: 14.283, lon: 121.137 },
+            { id: 60, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Bay 1 Floating PV Power Plant", developer: "Newasia Power Energy Corp.", capacity: 72.000, lat: 14.189, lon: 121.293 },
+            { id: 61, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Sta. Rosa Floating PV Power Plant", developer: "Newasia Power Energy II Corp.", capacity: 72.000, lat: 14.2646, lon: 121.0986 },
             { id: 62, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Macabebe Floating PV Power Plant", developer: "NEWASIA POWER ENERGY III CORP.", capacity: 95.000, lat: 14.903, lon: 120.724 },
             { id: 63, year: 2027, grid: "Visayas", type: "FLOATING SOLAR", facilityName: "Sagay Solar on Water PV Power Plant", developer: "LakeSun Energy Inc.", capacity: 70.000, lat: 10.902, lon: 123.415 },
             { id: 64, year: 2027, grid: "Luzon", type: "ONSHORE WIND", facilityName: "Sorsogon 2 Wind Power Project", developer: "Econergy Renewable Power Philippines Inc.", capacity: 200.000, lat: 12.973, lon: 124.008 },
@@ -272,13 +292,71 @@
         const modalCloseBtn = document.getElementById('modal-close-btn');
         const modalTitle = document.getElementById('modal-title');
         const modalBody = document.getElementById('modal-body');
+        const ratePanelToggle = document.getElementById('rate-panel-toggle');
+        const ratePanelContent = document.getElementById('rate-panel-content');
+        const rateArrow = document.getElementById('rate-arrow');
+
 
         // --- STATE & INSTANCES ---
         let sortState = { column: 'year', direction: 'asc' };
         let capacityChart, map, markerLayer;
         let currentFilteredProjects = [];
+        let awardedTotals = {};
         
         // --- FUNCTIONS ---
+
+        function calculateAwardedTotals() {
+            awardedTotals = {};
+            projects.forEach(p => {
+                if (!awardedTotals[p.year]) awardedTotals[p.year] = { "Luzon": {}, "Visayas": {}, "Mindanao": {} };
+                if (!awardedTotals[p.year][p.grid][p.type]) awardedTotals[p.year][p.grid][p.type] = 0;
+                awardedTotals[p.year][p.grid][p.type] += p.capacity;
+            });
+        }
+        
+        function updateSubscriptionPanel() {
+            const contentEl = ratePanelContent;
+            const selectedYear = yearFilter.value;
+            const selectedGrid = gridFilter.value;
+
+            const yearsToDisplay = selectedYear === 'all' ? Object.keys(gea4Targets) : [selectedYear];
+            const gridsToDisplay = selectedGrid === 'all' ? ["Luzon", "Visayas", "Mindanao"] : [selectedGrid];
+            
+            let html = '<div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">';
+            
+            yearsToDisplay.forEach(year => {
+                html += `<div class="bg-gray-50 p-4 rounded-lg">`;
+                html += `<h4 class="font-bold text-md mb-2 text-gray-700">${year}</h4>`;
+                html += '<div class="space-y-2">';
+                gridsToDisplay.forEach(grid => {
+                    if (gea4Targets[year] && gea4Targets[year][grid]) {
+                        html += `<div><h5 class="font-semibold text-sm text-gray-600">${grid} (Lot ${getLotNumber(year, grid)})</h5><ul class="text-xs text-gray-500 pl-4 list-disc">`;
+                        Object.keys(gea4Targets[year][grid]).forEach(tech => {
+                            const target = gea4Targets[year][grid][tech];
+                            if (target === 0) return;
+                            const awarded = (awardedTotals[year] && awardedTotals[year][grid] && awardedTotals[year][grid][tech]) ? awardedTotals[year][grid][tech] : 0;
+                            const rate = (awarded / target) * 100;
+                            let colorClass = 'text-red-600';
+                            if (rate >= 100) colorClass = 'text-green-600';
+                            else if (rate > 0) colorClass = 'text-yellow-600';
+                            
+                            const techName = tech.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                            html += `<li>${techName}: <strong class="${colorClass}">${rate.toFixed(1)}%</strong> (${formatNumber(awarded,1)}/${target} MW)</li>`;
+                        });
+                        html += `</ul></div>`;
+                    }
+                });
+                html += '</div></div>';
+            });
+            html += '</div>';
+            contentEl.innerHTML = html;
+        }
+
+        function getLotNumber(year, grid) {
+            const lots = { 2026: { Luzon: 1, Visayas: 2, Mindanao: 3 }, 2027: { Luzon: 4, Visayas: 5, Mindanao: 6 }, 2028: { Luzon: 7, Visayas: 8, Mindanao: 9 }, 2029: { Luzon: 10, Visayas: 11, Mindanao: 12 } };
+            return lots[year][grid];
+        }
+
         function initMap() {
             map = L.map('map').setView([12.8797, 121.7740], 6);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(map);
@@ -299,44 +377,22 @@
         }
 
         function zoomToGrid(grid) {
-            const gridViews = {
-                Luzon: [[15.5, 121], 7],
-                Visayas: [[10.7, 123.5], 8],
-                Mindanao: [[7.8, 125], 7],
-                all: [[12.8797, 121.7740], 6]
-            };
-            if(map && gridViews[grid]) {
-                map.flyTo(...gridViews[grid]);
-            }
+            const gridViews = { Luzon: [[15.5, 121], 7], Visayas: [[10.7, 123.5], 8], Mindanao: [[7.8, 125], 7], all: [[12.8797, 121.7740], 6] };
+            if(map && gridViews[grid]) { map.flyTo(...gridViews[grid]); }
         }
 
         function showProjectModal(projectId) {
             const project = projects.find(p => p.id === projectId);
             if (!project) return;
-            
             modalTitle.textContent = project.facilityName;
-            
             const specs = techSpecs[project.type];
             let specsHtml = '';
             if (specs) {
                 specsHtml += `<h3 class="text-md font-semibold text-gray-700 mt-4 mb-2">${specs.title}</h3><div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">`;
-                for (const [key, value] of Object.entries(specs.data)) {
-                    specsHtml += `<div><dt class="text-gray-500">${key}</dt><dd class="text-gray-900 font-medium">${value}</dd></div>`;
-                }
+                for (const [key, value] of Object.entries(specs.data)) { specsHtml += `<div><dt class="text-gray-500">${key}</dt><dd class="text-gray-900 font-medium">${value}</dd></div>`; }
                 specsHtml += '</div>';
             }
-            
-            modalBody.innerHTML = `
-                <div class="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
-                    <div><dt class="text-gray-500">Developer</dt><dd class="text-gray-900 font-medium">${project.developer}</dd></div>
-                    <div><dt class="text-gray-500">Grid</dt><dd class="text-gray-900 font-medium">${project.grid}</dd></div>
-                    <div><dt class="text-gray-500">Technology</dt><dd class="text-gray-900 font-medium">${project.type}</dd></div>
-                    <div><dt class="text-gray-500">Target Year</dt><dd class="text-gray-900 font-medium">${project.year}</dd></div>
-                    <div><dt class="text-gray-500">Awarded Capacity</dt><dd class="text-gray-900 font-medium">${formatNumber(project.capacity)} MW</dd></div>
-                </div>
-                ${specsHtml}
-            `;
-            
+            modalBody.innerHTML = `<div class="grid grid-cols-2 gap-x-4 gap-y-3 text-sm"><div><dt class="text-gray-500">Developer</dt><dd class="text-gray-900 font-medium">${project.developer}</dd></div><div><dt class="text-gray-500">Grid</dt><dd class="text-gray-900 font-medium">${project.grid}</dd></div><div><dt class="text-gray-500">Technology</dt><dd class="text-gray-900 font-medium">${project.type}</dd></div><div><dt class="text-gray-500">Target Year</dt><dd class="text-gray-900 font-medium">${project.year}</dd></div><div><dt class="text-gray-500">Awarded Capacity</dt><dd class="text-gray-900 font-medium">${formatNumber(project.capacity)} MW</dd></div></div>${specsHtml}`;
             projectModal.classList.remove('opacity-0', 'pointer-events-none');
             projectModalContent.classList.remove('scale-95');
         }
@@ -355,14 +411,7 @@
                 const row = document.createElement('tr');
                 row.className = 'hover:bg-gray-50';
                 row.dataset.projectId = project.id;
-                row.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${project.year}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${project.grid}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${project.type}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 max-w-xs truncate" title="${project.facilityName}">${project.facilityName}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 max-w-xs truncate" title="${project.developer}">${project.developer}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium text-right">${formatNumber(project.capacity)}</td>
-                `;
+                row.innerHTML = `<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${project.year}</td><td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${project.grid}</td><td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${project.type}</td><td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 max-w-xs truncate" title="${project.facilityName}">${project.facilityName}</td><td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 max-w-xs truncate" title="${project.developer}">${project.developer}</td><td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium text-right">${formatNumber(project.capacity)}</td>`;
                 tableBody.appendChild(row);
             });
         }
@@ -415,6 +464,7 @@
             searchFilter.value = ''; gridFilter.selectedIndex = 0; yearFilter.selectedIndex = 0; typeFilter.selectedIndex = 0; developerFilter.selectedIndex = 0;
             sortState = { column: 'year', direction: 'asc' };
             applyFiltersAndSort();
+            updateSubscriptionPanel();
             zoomToGrid('all');
         }
 
@@ -432,8 +482,8 @@
 
         // --- EVENT LISTENERS ---
         searchFilter.addEventListener('input', applyFiltersAndSort);
-        gridFilter.addEventListener('change', () => { applyFiltersAndSort(); zoomToGrid(gridFilter.value); });
-        yearFilter.addEventListener('change', applyFiltersAndSort);
+        gridFilter.addEventListener('change', () => { applyFiltersAndSort(); updateSubscriptionPanel(); zoomToGrid(gridFilter.value); });
+        yearFilter.addEventListener('change', () => { applyFiltersAndSort(); updateSubscriptionPanel(); });
         typeFilter.addEventListener('change', applyFiltersAndSort);
         developerFilter.addEventListener('change', applyFiltersAndSort);
         exportBtn.addEventListener('click', exportToCsv);
@@ -461,6 +511,18 @@
         modalCloseBtn.addEventListener('click', hideProjectModal);
         projectModal.addEventListener('click', (event) => { if (event.target === projectModal) hideProjectModal(); });
 
+        ratePanelToggle.addEventListener('click', () => {
+            const content = ratePanelContent;
+            const arrow = rateArrow;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+                arrow.style.transform = 'rotate(180deg)';
+            }
+        });
+
         // --- WIND TURBINE ANIMATION ---
         const turbineBlades = document.getElementById('turbine-blades');
         let currentRotation = 0, rotationSpeed = 0.5, slowdownInterval;
@@ -474,6 +536,8 @@
         document.addEventListener('DOMContentLoaded', () => {
             initMap();
             populateFilters();
+            calculateAwardedTotals();
+            updateSubscriptionPanel();
             applyFiltersAndSort();
             animateTurbine();
         });
