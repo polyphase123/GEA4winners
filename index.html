@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GEA-4 Preliminary Results & GEAR Prices</title>
+    <title>Green Energy Auction (GEA-4) Winners</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
@@ -50,9 +50,8 @@
                     <circle cx="50" cy="50" r="4" fill="#f3f4f6" stroke="#6b7280" stroke-width="1"/>
                 </svg>
             </div>
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Green Energy Auction (GEA-4)</h1>
-            <p class="mt-2 text-lg text-gray-600">Preliminary Auction Results and GEAR Prices</p>
-            <p class="text-sm text-red-600 mt-2">Programmed by Engr. Franz Xyrlo I. Tobias</p>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Green Energy Auction (GEA-4) Winners</h1>
+            <p class="text-sm text-red-600 mt-2">Programmed by Engr. Franz Xyrlo I. Tobias, PEE</p>
         </header>
 
          <!-- Map Section -->
@@ -79,7 +78,9 @@
                     <label for="year-filter" class="block text-sm font-medium text-gray-700 mb-1">Filter by Year</label>
                     <select id="year-filter" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
                         <option value="all">All Years</option>
-                        <option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option>
+                        <option value="2027">2027</option>
+                        <option value="2028">2028</option>
+                        <option value="2029">2029</option>
                     </select>
                 </div>
                 <div>
@@ -107,10 +108,10 @@
             
             <div class="grid grid-cols-1 mb-8"><div class="max-w-3xl mx-auto w-full"><h3 class="text-lg font-semibold text-gray-800 mb-2 text-center">Total Capacity by Technology (MW)</h3><canvas id="capacity-chart"></canvas></div></div>
 
-            <div class="overflow-x-auto"><table class="min-w-full divide-y divide-gray-200"><thead class="bg-gray-50"><tr><th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" data-sort="year">Year <span class="sort-arrow">↕️</span></th><th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" data-sort="grid">Grid <span class="sort-arrow">↕️</span></th><th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" data-sort="type">Technology <span class="sort-arrow">↕️</span></th><th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" data-sort="facilityName">Project Name <span class="sort-arrow">↕️</span></th><th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" data-sort="developer">Developer <span class="sort-arrow">↕️</span></th><th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" data-sort="capacity">Capacity (MW) <span class="sort-arrow">↕️</span></th><th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" data-sort="price">GEAR Price (₱/kWh) <span class="sort-arrow">↕️</span></th></tr></thead><tbody id="projects-table-body" class="bg-white divide-y divide-gray-200"></tbody></table><p id="no-results" class="text-center py-8 text-gray-500 hidden">No projects match the selected filters.</p></div>
+            <div class="overflow-x-auto"><table class="min-w-full divide-y divide-gray-200"><thead class="bg-gray-50"><tr><th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" data-sort="year">Year <span class="sort-arrow">↕️</span></th><th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" data-sort="grid">Grid <span class="sort-arrow">↕️</span></th><th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" data-sort="type">Technology <span class="sort-arrow">↕️</span></th><th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" data-sort="facilityName">Project Name <span class="sort-arrow">↕️</span></th><th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" data-sort="developer">Developer <span class="sort-arrow">↕️</span></th><th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" data-sort="capacity">Capacity (MW) <span class="sort-arrow">↕️</span></th></tr></thead><tbody id="projects-table-body" class="bg-white divide-y divide-gray-200"></tbody></table><p id="no-results" class="text-center py-8 text-gray-500 hidden">No projects match the selected filters.</p></div>
         </div>
 
-        <footer class="text-center mt-8 text-sm text-gray-500"><p>Data sourced from DOE GEA-4 Advisory No. 4 and ERC Resolution No. 09, Series of 2025.</p><p>Displaying project data with official GEAR prices.</p></footer>
+        <footer class="text-center mt-8 text-sm text-gray-500"><p>Data sourced from DOE GEA-4 Advisory No. 4 and other public records.</p></footer>
     </div>
 
     <!-- Project Detail Modal -->
@@ -127,7 +128,6 @@
 
     <script>
         // --- DATA ---
-        const gearPrices = { "ROOF-MOUNTED SOLAR": 5.6800, "GROUND-MOUNTed SOLAR": 4.4832, "FLOATING SOLAR": 6.5258, "ONSHORE WIND": 6.0859, "IRESS": 5.4028 };
         const iconColors = { "ROOF-MOUNTED SOLAR": "#F59E0B", "GROUND-MOUNTED SOLAR": "#FBBF24", "FLOATING SOLAR": "#3B82F6", "ONSHORE WIND": "#A78BFA", "IRESS": "#10B981" };
 
         const techSpecs = {
@@ -138,21 +138,27 @@
             "IRESS": { title: "IRESS (Solar + Storage) Assumptions", data: { "Net Capacity Factor (Solar)": "19.00%", "Plant Degradation": "0.50% / year", "Economic Useful Life": "25 Years", "Representative CAPEX": "$1.01M / MW" } },
         };
         
-        // Locations updated based on DOE Committed and Indicative Projects lists
+        // Locations updated based on "Philippine Renewable Energy Project Search.pdf"
         const projects = [
-            { id: 39, year: 2027, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Cauayan Solar Power Project; Phase 1", developer: "SMC Global Light and Power Corp.", capacity: 270.000, lat: 16.936, lon: 121.772 }, // Cauayan, Isabela
-            { id: 40, year: 2027, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "San Vicente Solar Power Project", developer: "Citadel Energy Corporation", capacity: 140.000, lat: 14.115, lon: 122.885 }, // San Vicente, Camarines Norte
+            { id: 33, year: 2027, grid: "Luzon", type: "IRESS", facilityName: "Bolbok 3 Solar Power Project Phase 2", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 13.682, lon: 121.055 }, // Batangas City, Batangas
+            { id: 34, year: 2027, grid: "Visayas", type: "IRESS", facilityName: "Barotac Viejo Solar Power Project", developer: "Magallanes Solar Energy Corp.", capacity: 67.000, lat: 11.052, lon: 122.953 }, // Barotac Viejo, Iloilo
+            { id: 35, year: 2027, grid: "Visayas", type: "IRESS", facilityName: "Silay 2C Solar Power Project; Phase 1", developer: "Citicore Renewable Energy Corporation", capacity: 38.000, lat: 10.793, lon: 123.008 }, // Silay City, Negros Occidental
+            { id: 36, year: 2027, grid: "Luzon", type: "IRESS", facilityName: "Titan V Solar Power Project; Phase 1", developer: "Apolaki Four Inc.", capacity: 49.700, lat: 8.55, lon: 126.38 }, // Barobo / Tagbina, Surigao del Sur
+            { id: 37, year: 2027, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Atimonan Solar Power Project", developer: "Bolo Renewable Energy Corp.", capacity: 50.000, lat: 14.004, lon: 121.916 }, // Atimonan, Quezon
+            { id: 38, year: 2027, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Ultra Solar Power Plant Project", developer: "Bolo Renewable Energy Corp.", capacity: 68.000, lat: 14.012, lon: 121.905 }, // Atimonan, Quezon
+            { id: 39, year: 2027, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Cauayan Solar Power Project; Phase 1", developer: "SMC Global Light and Power Corp.", capacity: 270.000, lat: 16.936, lon: 121.772 }, // Cauayan City, Isabela
+            { id: 40, year: 2027, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "San Vicente Solar Power Project", developer: "Citadel Energy Corporation", capacity: 140.000, lat: 10.531, lon: 119.294 }, // San Vicente, Palawan
             { id: 41, year: 2027, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Villaverde Ground-Mounted Solar-Photovoltaic Project", developer: "Verde Radiant Power Corporation", capacity: 11.840, lat: 16.513, lon: 121.012 }, // Villaverde, Nueva Vizcaya
             { id: 42, year: 2027, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Libmanan Solar Power Project", developer: "Green PV Energy Corporation", capacity: 49.900, lat: 13.692, lon: 123.064 }, // Libmanan, Camarines Sur
-            { id: 43, year: 2027, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Sta. Ignacia Tarlac Solar Power Plant Project Phase 1", developer: "Sta. Ignacia Tarlac Solar Power Corporation", capacity: 18.000, lat: 15.613, lon: 120.442 }, // Santa Ignacia, Tarlac
+            { id: 43, year: 2027, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Sta. Ignacia Tarlac Solar Power Plant Project Phase 1", developer: "Sta. Ignacia Tarlac Solar Power Corporation", capacity: 18.000, lat: 15.613, lon: 120.442 }, // Sta. Ignacia, Tarlac
             { id: 44, year: 2027, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Earthlight Concepcion Solar Power Project; Phase 1", developer: "Joy-Nostalg Solaris Incorporated", capacity: 30.400, lat: 15.326, lon: 120.658 }, // Concepcion, Tarlac
             { id: 45, year: 2027, grid: "Visayas", type: "GROUND-MOUNTED SOLAR", facilityName: "Zamboanguita Solar Power Project", developer: "Zamboanguita Solar Power Corporation", capacity: 50.000, lat: 9.156, lon: 123.205 }, // Zamboanguita, Negros Oriental
-            { id: 46, year: 2027, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "San Miguel Solar Power Project", developer: "Sunpalo Solar Energy, Inc.", capacity: 150.000, lat: 15.152, lon: 120.978 }, // San Miguel, Bulacan
+            { id: 46, year: 2027, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "San Miguel Solar Power Project", developer: "Sunpalo Solar Energy, Inc.", capacity: 150.000, lat: 9.79, lon: 124.39 }, // San Miguel, Bohol
             { id: 47, year: 2027, grid: "Mindanao", type: "GROUND-MOUNTED SOLAR", facilityName: "Malita Solar Power Project; Phase 2", developer: "SMC Global Light and Power Corp.", capacity: 27.000, lat: 6.415, lon: 125.613 }, // Malita, Davao Occidental
             { id: 48, year: 2027, grid: "Mindanao", type: "GROUND-MOUNTED SOLAR", facilityName: "SPPC Solar Power Project (Phase 1)", developer: "Alabel Solar Energy Corporation", capacity: 30.000, lat: 6.103, lon: 125.286 }, // Alabel, Sarangani
             { id: 49, year: 2027, grid: "Luzon", type: "ROOF-MOUNTED SOLAR", facilityName: "Ning Ning Catmon Sta. Maria Rooftop Solar Power Project", developer: "Joy-Nostalg Solaris Incorporated", capacity: 4.019, lat: 14.814, lon: 120.963 }, // Santa Maria, Bulacan
             { id: 50, year: 2027, grid: "Luzon", type: "ROOF-MOUNTED SOLAR", facilityName: "Ning Ning Dolores Magalang Rooftop Solar Power Project", developer: "Joy-Nostalg Solaris Incorporated", capacity: 5.353, lat: 15.223, lon: 120.661 }, // Magalang, Pampanga
-            { id: 51, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Magat Floating Solar Power Project", developer: "Sn Aboitiz Power - Magat, Inc", capacity: 50.000, lat: 16.795, lon: 121.463 }, // Magat Dam, Isabela/Ifugao
+            { id: 51, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Magat Floating Solar Power Project", developer: "Sn Aboitiz Power - Magat, Inc", capacity: 50.000, lat: 16.795, lon: 121.463 }, // Ramon, Isabela / Alfonso Lista, Ifugao
             { id: 52, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Cabuyao 2 Floating PV Power Plant", developer: "Nortesol Inc.", capacity: 72.000, lat: 14.281, lon: 121.135 }, // Cabuyao, Laguna
             { id: 53, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Cabuyao 1 Floating PV Power Plant", developer: "Nortesol II Inc.", capacity: 72.000, lat: 14.281, lon: 121.135 }, // Cabuyao, Laguna
             { id: 54, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Calamba Floating PV Solar Power Project", developer: "Norteson Incorporated", capacity: 72.000, lat: 14.212, lon: 121.164 }, // Calamba, Laguna
@@ -164,55 +170,55 @@
             { id: 60, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Bay 1 Floating PV Power Plant", developer: "Newasia Power Energy Corp.", capacity: 72.000, lat: 14.175, lon: 121.293 }, // Bay, Laguna
             { id: 61, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Sta. Rosa Floating PV Power Plant", developer: "Newasia Power Energy II Corp.", capacity: 72.000, lat: 14.316, lon: 121.112 }, // Santa Rosa, Laguna
             { id: 62, year: 2027, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Macabebe Floating PV Power Plant", developer: "NEWASIA POWER ENERGY III CORP.", capacity: 95.000, lat: 14.903, lon: 120.724 }, // Macabebe, Pampanga
-            { id: 63, year: 2027, grid: "Visayas", type: "FLOATING SOLAR", facilityName: "Sagay Solar on Water PV Power Plant", developer: "LakeSun Energy Inc.", capacity: 70.000, lat: 10.902, lon: 123.415 }, // Sagay, Negros Occidental
+            { id: 63, year: 2027, grid: "Visayas", type: "FLOATING SOLAR", facilityName: "Sagay Solar on Water PV Power Plant", developer: "LakeSun Energy Inc.", capacity: 70.000, lat: 10.902, lon: 123.415 }, // Sagay City, Negros Occidental
             { id: 64, year: 2027, grid: "Luzon", type: "ONSHORE WIND", facilityName: "Sorsogon 2 Wind Power Project", developer: "Econergy Renewable Power Philippines Inc.", capacity: 200.000, lat: 12.973, lon: 124.008 }, // Sorsogon City, Sorsogon
             { id: 65, year: 2027, grid: "Luzon", type: "ONSHORE WIND", facilityName: "Presentacion 2 Wind Power Project", developer: "Wind Renewable Energy Corporation", capacity: 49.500, lat: 13.842, lon: 123.635 }, // Presentacion, Camarines Sur
-            { id: 66, year: 2027, grid: "Luzon", type: "ONSHORE WIND", facilityName: "Quezon Wind Power Project (Phase 2)", developer: "Quezon Wind Energy Corp.", capacity: 208.000, lat: 14.331, lon: 121.906 }, // Mauban, Quezon
-            { id: 67, year: 2027, grid: "Luzon", type: "ONSHORE WIND", facilityName: "Northern Wind Power Project", developer: "Econergy Renewable Power Philippines Inc.", capacity: 100.000, lat: 18.534, lon: 120.763 }, // Bangui, Ilocos Norte
-            { id: 68, year: 2027, grid: "Luzon", type: "ONSHORE WIND", facilityName: "Cauayan Wind Project", developer: "Envision Energy Philippines Corporation", capacity: 50.000, lat: 16.936, lon: 121.772 }, // Cauayan, Isabela
+            { id: 66, year: 2027, grid: "Luzon", type: "ONSHORE WIND", facilityName: "Quezon Wind Power Project (Phase 2)", developer: "Quezon Wind Energy Corp.", capacity: 208.000, lat: 14.75, lon: 121.58 }, // Real / Mauban, Quezon
+            { id: 67, year: 2027, grid: "Luzon", type: "ONSHORE WIND", facilityName: "Northern Wind Power Project", developer: "Econergy Renewable Power Philippines Inc.", capacity: 100.000, lat: 12.00, lon: 125.00 }, // Samar
+            { id: 68, year: 2027, grid: "Luzon", type: "ONSHORE WIND", facilityName: "Cauayan Wind Project", developer: "Envision Energy Philippines Corporation", capacity: 50.000, lat: 16.936, lon: 121.772 }, // Cauayan City, Isabela
             { id: 69, year: 2028, grid: "Luzon", type: "IRESS", facilityName: "Talingaan-Laoag Solar Power Project", developer: "North Luzon Green Power, Inc.", capacity: 100.000, lat: 18.195, lon: 120.593 }, // Laoag, Ilocos Norte
             { id: 70, year: 2028, grid: "Luzon", type: "IRESS", facilityName: "Luna Solar Power Project", developer: "South Cleanergy Inc.", capacity: 120.000, lat: 16.852, lon: 120.425 }, // Luna, La Union
-            { id: 71, year: 2028, grid: "Mindanao", type: "IRESS", facilityName: "Kalandagan Solar Power Project", developer: "Olympia Solar Power Corporation", capacity: 54.000, lat: 6.783, lon: 124.596 }, // Tacurong, Sultan Kudarat
-            { id: 72, year: 2028, grid: "Luzon", type: "IRESS", facilityName: "Titan V Solar Power Project; Phase 2", developer: "Apolaki Four Inc.", capacity: 49.700, lat: 15.485, lon: 120.592 }, // Concepcion, Tarlac
-            { id: 73, year: 2028, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Cauayan Solar Power Project; Phase 2", developer: "SMC Global Light and Power Corp.", capacity: 630.000, lat: 16.936, lon: 121.772 }, // Cauayan, Isabela
-            { id: 74, year: 2028, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Isabela Solar Power Project; Phase 1-3", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 17.152, lon: 121.776 }, // Ilagan, Isabela
-            { id: 75, year: 2028, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Isabela Solar Power Project; Phase 1-2", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 17.152, lon: 121.776 }, // Ilagan, Isabela
-            { id: 76, year: 2028, grid: "Visayas", type: "GROUND-MOUNTED SOLAR", facilityName: "Victorias Solar Power Plant", developer: "Victorias Green Energy Corp.", capacity: 85.000, lat: 10.905, lon: 123.083 }, // Victorias, Negros Occidental
+            { id: 71, year: 2028, grid: "Mindanao", type: "IRESS", facilityName: "Kalandagan Solar Power Project", developer: "Olympia Solar Power Corporation", capacity: 54.000, lat: 6.783, lon: 124.596 }, // Tacurong (Kalandagan), Sultan Kudarat
+            { id: 72, year: 2028, grid: "Luzon", type: "IRESS", facilityName: "Titan V Solar Power Project; Phase 2", developer: "Apolaki Four Inc.", capacity: 49.700, lat: 8.55, lon: 126.38 }, // Barobo / Tagbina, Surigao del Sur
+            { id: 73, year: 2028, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Cauayan Solar Power Project; Phase 2", developer: "SMC Global Light and Power Corp.", capacity: 630.000, lat: 16.936, lon: 121.772 }, // Cauayan City, Isabela
+            { id: 74, year: 2028, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Isabela Solar Power Project; Phase 1-3", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 17.152, lon: 121.776 }, // Ilagan City, Isabela
+            { id: 75, year: 2028, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Isabela Solar Power Project; Phase 1-2", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 17.152, lon: 121.776 }, // Ilagan City, Isabela
+            { id: 76, year: 2028, grid: "Visayas", type: "GROUND-MOUNTED SOLAR", facilityName: "Victorias Solar Power Plant", developer: "Victorias Green Energy Corp.", capacity: 85.000, lat: 10.905, lon: 123.083 }, // Victorias City, Negros Occidental
             { id: 77, year: 2028, grid: "Visayas", type: "GROUND-MOUNTED SOLAR", facilityName: "Earthlight San Fernando Barotac Viejo Solar Power Project; Phase 1", developer: "Joy-Nostalg Solaris Incorporated", capacity: 55.500, lat: 11.052, lon: 122.953 }, // Barotac Viejo, Iloilo
             { id: 78, year: 2028, grid: "Visayas", type: "GROUND-MOUNTED SOLAR", facilityName: "Ajuy 1 Solar Power Project; Phase 2", developer: "Joy-Nostalg Solaris Incorporated", capacity: 23.967, lat: 11.173, lon: 123.024 }, // Ajuy, Iloilo
             { id: 79, year: 2028, grid: "Visayas", type: "GROUND-MOUNTED SOLAR", facilityName: "Viejo Iloilo Solar Power Project", developer: "JICA Power and Development Corporation", capacity: 158.400, lat: 11.052, lon: 122.953 }, // Barotac Viejo, Iloilo
             { id: 80, year: 2028, grid: "Visayas", type: "GROUND-MOUNTED SOLAR", facilityName: "Ilog Solar Power Project", developer: "Western Visayas Solar Energy Corp.", capacity: 140.100, lat: 10.142, lon: 122.776 }, // Ilog, Negros Occidental
-            { id: 81, year: 2028, grid: "Visayas", type: "GROUND-MOUNTED SOLAR", facilityName: "Bohol Solar Power Project", developer: "Bohol Renewable Power Corp. (Isla Este Renewables Corporation)", capacity: 17.500, lat: 9.645, lon: 123.856 }, // Tagbilaran, Bohol
+            { id: 81, year: 2028, grid: "Visayas", type: "GROUND-MOUNTED SOLAR", facilityName: "Bohol Solar Power Project", developer: "Bohol Renewable Power Corp. (Isla Este Renewables Corporation)", capacity: 17.500, lat: 9.85, lon: 124.46 }, // Ubay, Bohol
             { id: 82, year: 2028, grid: "Mindanao", type: "GROUND-MOUNTED SOLAR", facilityName: "Malita Solar Power Project; Phase 3", developer: "SMC Global Light and Power Corp.", capacity: 30.000, lat: 6.415, lon: 125.613 }, // Malita, Davao Occidental
-            { id: 83, year: 2028, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Angat Solar Power Project; Phase 1", developer: "SMC Global Light and Power Corp.", capacity: 540.000, lat: 14.912, lon: 121.053 }, // Angat Dam, Bulacan
+            { id: 83, year: 2028, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Angat Solar Power Project; Phase 1", developer: "SMC Global Light and Power Corp.", capacity: 540.000, lat: 14.912, lon: 121.053 }, // Angat, Bulacan
             { id: 84, year: 2028, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "San Marcelino Floating Solar Power Project", developer: "Northern Sun Radiance Inc.", capacity: 130.000, lat: 14.975, lon: 120.164 }, // San Marcelino, Zambales
-            { id: 85, year: 2028, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Liberty Solar Power Project; Phase B", developer: "Liberty Solar Energy Corporation", capacity: 34.000, lat: 16.402, lon: 120.353 }, // Caba, La Union
-            { id: 86, year: 2028, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Liberty Solar Power Project; Phase A", developer: "Liberty Solar Energy Corporation", capacity: 34.000, lat: 16.402, lon: 120.353 }, // Caba, La Union
-            { id: 87, year: 2028, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "NKS One Floating Solar Power Project; Phase 2", developer: "NKS Solar One Inc.", capacity: 47.000, lat: 15.485, lon: 120.592 }, // Concepcion, Tarlac
-            { id: 88, year: 2028, grid: "Visayas", type: "FLOATING SOLAR", facilityName: "Silay Solar on Water PV Power Plant", developer: "Limnelios Inc.", capacity: 64.000, lat: 10.793, lon: 123.008 }, // Silay, Negros Occidental
-            { id: 89, year: 2028, grid: "Luzon", type: "ONSHORE WIND", facilityName: "Pagsanjan Wind Project", developer: "Envision Energy Philippines Corporation", capacity: 200.000, lat: 14.275, lon: 121.453 }, // Pagsanjan, Laguna
+            { id: 85, year: 2028, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Liberty Solar Power Project; Phase B", developer: "Liberty Solar Energy Corporation", capacity: 34.000, lat: null, lon: null }, // Texas, USA (Anomalous)
+            { id: 86, year: 2028, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Liberty Solar Power Project; Phase A", developer: "Liberty Solar Energy Corporation", capacity: 34.000, lat: null, lon: null }, // Texas, USA (Anomalous)
+            { id: 87, year: 2028, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "NKS One Floating Solar Power Project; Phase 2", developer: "NKS Solar One Inc.", capacity: 47.000, lat: null, lon: null }, // TBD
+            { id: 88, year: 2028, grid: "Visayas", type: "FLOATING SOLAR", facilityName: "Silay Solar on Water PV Power Plant", developer: "Limnelios Inc.", capacity: 64.000, lat: 10.793, lon: 123.008 }, // Silay City, Negros Occidental
+            { id: 89, year: 2028, grid: "Luzon", type: "ONSHORE WIND", facilityName: "Pagsanjan Wind Project", developer: "Envision Energy Philippines Corporation", capacity: 200.000, lat: 14.275, lon: 121.453 }, // Pagsanjan / Lumban, Laguna
             { id: 90, year: 2028, grid: "Luzon", type: "ONSHORE WIND", facilityName: "Tayabas North Wind Energy Project (Phase 1)", developer: "Clean Tech Global Renewables, Inc.", capacity: 96.000, lat: 14.024, lon: 121.593 }, // Tayabas, Quezon
             { id: 91, year: 2028, grid: "Luzon", type: "ONSHORE WIND", facilityName: "San Nicolas Wind Power Project", developer: "San Nicolas Wind Corp.", capacity: 200.000, lat: 18.172, lon: 120.735 }, // San Nicolas, Ilocos Norte
             { id: 92, year: 2028, grid: "Visayas", type: "ONSHORE WIND", facilityName: "Alegria Wind Power Project", developer: "MC Project Solutions Inc.", capacity: 56.000, lat: 9.774, lon: 123.362 }, // Alegria, Cebu
             { id: 93, year: 2028, grid: "Visayas", type: "ONSHORE WIND", facilityName: "Lavezares Wind Project", developer: "Envision Energy Philippines Corporation", capacity: 50.000, lat: 12.553, lon: 124.336 }, // Lavezares, Northern Samar
-            { id: 94, year: 2028, grid: "Visayas", type: "ONSHORE WIND", facilityName: "Leyte Wind Project", developer: "Envision Energy Philippines Corporation", capacity: 110.000, lat: 11.245, lon: 125.012 }, // Tacloban, Leyte
+            { id: 94, year: 2028, grid: "Visayas", type: "ONSHORE WIND", facilityName: "Leyte Wind Project", developer: "Envision Energy Philippines Corporation", capacity: 110.000, lat: 10.05, lon: 125.25 }, // Panaon Island, Southern Leyte
             { id: 95, year: 2029, grid: "Luzon", type: "IRESS", facilityName: "Currimao Solar Power Project", developer: "Northern Sun Power, Inc.", capacity: 190.000, lat: 18.062, lon: 120.485 }, // Currimao, Ilocos Norte
-            { id: 96, year: 2029, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Isabela Solar Power Project: Phase 3-2", developer: "Citicore Renewable Energy Corporation", capacity: 40.000, lat: 17.152, lon: 121.776 }, // Ilagan, Isabela
-            { id: 97, year: 2029, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Isabela Solar Power Project; Phase 2-3", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 17.152, lon: 121.776 }, // Ilagan, Isabela
-            { id: 98, year: 2029, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Isabela Solar Power Project; Phase 2-2", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 17.152, lon: 121.776 }, // Ilagan, Isabela
-            { id: 99, year: 2029, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Isabela Solar Power Project: Phase 3-1", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 17.152, lon: 121.776 }, // Ilagan, Isabela
-            { id: 100, year: 2029, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Isabela Solar Power Project; Phase 2-1", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 17.152, lon: 121.776 }, // Ilagan, Isabela
+            { id: 96, year: 2029, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Isabela Solar Power Project: Phase 3-2", developer: "Citicore Renewable Energy Corporation", capacity: 40.000, lat: 17.152, lon: 121.776 }, // Ilagan City, Isabela
+            { id: 97, year: 2029, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Isabela Solar Power Project; Phase 2-3", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 17.152, lon: 121.776 }, // Ilagan City, Isabela
+            { id: 98, year: 2029, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Isabela Solar Power Project; Phase 2-2", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 17.152, lon: 121.776 }, // Ilagan City, Isabela
+            { id: 99, year: 2029, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Isabela Solar Power Project: Phase 3-1", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 17.152, lon: 121.776 }, // Ilagan City, Isabela
+            { id: 100, year: 2029, grid: "Luzon", type: "GROUND-MOUNTED SOLAR", facilityName: "Isabela Solar Power Project; Phase 2-1", developer: "Citicore Renewable Energy Corporation", capacity: 50.000, lat: 17.152, lon: 121.776 }, // Ilagan City, Isabela
             { id: 101, year: 2029, grid: "Visayas", type: "GROUND-MOUNTED SOLAR", facilityName: "Earthlight San Fernando Barotac Viejo Solar Power Project; Phase 2", developer: "Joy-Nostalg Solaris Incorporated", capacity: 55.500, lat: 11.052, lon: 122.953 }, // Barotac Viejo, Iloilo
             { id: 102, year: 2029, grid: "Visayas", type: "GROUND-MOUNTED SOLAR", facilityName: "Dagohoy Solar Power Project", developer: "Dagohoy Green Energy Corporation", capacity: 20.160, lat: 9.943, lon: 124.235 }, // Dagohoy, Bohol
             { id: 103, year: 2029, grid: "Visayas", type: "GROUND-MOUNTED SOLAR", facilityName: "Panitan Solar Power Project", developer: "EcoSolar Energy Corporation", capacity: 70.080, lat: 11.385, lon: 122.793 }, // Panitan, Capiz
             { id: 104, year: 2029, grid: "Mindanao", type: "GROUND-MOUNTED SOLAR", facilityName: "Malita Solar Power Project; Phase 4", developer: "SMC Global Light and Power Corp.", capacity: 120.000, lat: 6.415, lon: 125.613 }, // Malita, Davao Occidental
-            { id: 105, year: 2029, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Angat Solar Power Project; Phase 2", developer: "SMC Global Light and Power Corp.", capacity: 500.000, lat: 14.912, lon: 121.053 }, // Angat Dam, Bulacan
+            { id: 105, year: 2029, grid: "Luzon", type: "FLOATING SOLAR", facilityName: "Angat Solar Power Project; Phase 2", developer: "SMC Global Light and Power Corp.", capacity: 500.000, lat: 14.912, lon: 121.053 }, // Angat, Bulacan
             { id: 106, year: 2029, grid: "Luzon", type: "ONSHORE WIND", facilityName: "Calabanga Wind Project", developer: "Envision Energy Philippines Corporation", capacity: 200.000, lat: 13.715, lon: 123.214 }, // Calabanga, Camarines Sur
-            { id: 107, year: 2029, grid: "Luzon", type: "ONSHORE WIND", facilityName: "Quezon Wind Power Project (Phase 1)", developer: "Atimonan Windkraft Corporation", capacity: 67.000, lat: 14.331, lon: 121.906 }, // Mauban, Quezon
-            { id: 108, year: 2029, grid: "Luzon", type: "ONSHORE WIND", facilityName: "Ilosong Wind Power Project (Phase 1)", developer: "Ilosong Wind Corp.", capacity: 200.000, lat: 15.932, lon: 121.904 }, // Casiguran, Aurora
-            { id: 109, year: 2029, grid: "Visayas", type: "ONSHORE WIND", facilityName: "Bais Wind Project", developer: "Envision Energy Philippines Corporation", capacity: 150.000, lat: 9.593, lon: 123.124 }, // Bais, Negros Oriental
-            { id: 110, year: 2029, grid: "Mindanao", type: "ONSHORE WIND", facilityName: "Caraga Wind Power Project Phase 1", developer: "Caraga Wind Energy Corporation", capacity: 101.000, lat: 7.762, lon: 126.551 }, // Mati, Davao Oriental
-            { id: 111, year: 2029, grid: "Mindanao", type: "ONSHORE WIND", facilityName: "Caraga Wind Power Project Phase 2", developer: "Caraga Wind Energy Corporation", capacity: 50.000, lat: 7.762, lon: 126.551 }, // Mati, Davao Oriental
+            { id: 107, year: 2029, grid: "Luzon", type: "ONSHORE WIND", facilityName: "Quezon Wind Power Project (Phase 1)", developer: "Atimonan Windkraft Corporation", capacity: 67.000, lat: 14.004, lon: 121.916 }, // Atimonan, Quezon
+            { id: 108, year: 2029, grid: "Luzon", type: "ONSHORE WIND", facilityName: "Ilosong Wind Power Project (Phase 1)", developer: "Ilosong Wind Corp.", capacity: 200.000, lat: 13.58, lon: 124.23 }, // Ilosong (Virac), Catanduanes
+            { id: 109, year: 2029, grid: "Visayas", type: "ONSHORE WIND", facilityName: "Bais Wind Project", developer: "Envision Energy Philippines Corporation", capacity: 150.000, lat: 9.593, lon: 123.124 }, // Bais City, Negros Oriental
+            { id: 110, year: 2029, grid: "Mindanao", type: "ONSHORE WIND", facilityName: "Caraga Wind Power Project Phase 1", developer: "Caraga Wind Energy Corporation", capacity: 101.000, lat: 7.762, lon: 126.551 }, // Surigao City, Surigao del Norte
+            { id: 111, year: 2029, grid: "Mindanao", type: "ONSHORE WIND", facilityName: "Caraga Wind Power Project Phase 2", developer: "Caraga Wind Energy Corporation", capacity: 50.000, lat: 7.762, lon: 126.551 }, // Surigao City, Surigao del Norte
         ];
         
         // --- DOM ELEMENTS ---
@@ -294,7 +300,6 @@
                     <div><dt class="text-gray-500">Technology</dt><dd class="text-gray-900 font-medium">${project.type}</dd></div>
                     <div><dt class="text-gray-500">Target Year</dt><dd class="text-gray-900 font-medium">${project.year}</dd></div>
                     <div><dt class="text-gray-500">Awarded Capacity</dt><dd class="text-gray-900 font-medium">${formatNumber(project.capacity)} MW</dd></div>
-                    <div><dt class="text-gray-500">GEAR Price</dt><dd class="text-gray-900 font-medium">₱${(gearPrices[project.type] || 0).toFixed(4)} / kWh</dd></div>
                 </div>
                 ${specsHtml}
             `;
@@ -314,7 +319,6 @@
             tableBody.innerHTML = '';
             noResultsEl.classList.toggle('hidden', projectList.length > 0);
             projectList.forEach(project => {
-                const price = gearPrices[project.type] || 0;
                 const row = document.createElement('tr');
                 row.className = 'hover:bg-gray-50';
                 row.dataset.projectId = project.id;
@@ -325,7 +329,6 @@
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 max-w-xs truncate" title="${project.facilityName}">${project.facilityName}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 max-w-xs truncate" title="${project.developer}">${project.developer}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium text-right">${formatNumber(project.capacity)}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">${price.toFixed(4)}</td>
                 `;
                 tableBody.appendChild(row);
             });
@@ -367,7 +370,6 @@
                 (selectedDeveloper === 'all' || p.developer === selectedDeveloper)
             );
 
-            currentFilteredProjects.forEach(p => { p.price = gearPrices[p.type] || 0; });
             currentFilteredProjects.sort((a, b) => { let comp = 0; if (a[sortState.column] > b[sortState.column]) comp = 1; else if (a[sortState.column] < b[sortState.column]) comp = -1; return sortState.direction === 'desc' ? comp * -1 : comp; });
             
             renderTable(currentFilteredProjects);
@@ -384,8 +386,8 @@
         }
 
         function exportToCsv() {
-            const headers = ["ID", "Year", "Grid", "Technology", "Project Name", "Developer", "Capacity (MW)", "GEAR Price (PHP/kWh)"];
-            const rows = currentFilteredProjects.map(p => [ p.id, p.year, p.grid, p.type, `"${p.facilityName.replace(/"/g, '""')}"`, `"${p.developer.replace(/"/g, '""')}"`, p.capacity, p.price ].join(','));
+            const headers = ["ID", "Year", "Grid", "Technology", "Project Name", "Developer", "Capacity (MW)"];
+            const rows = currentFilteredProjects.map(p => [ p.id, p.year, p.grid, p.type, `"${p.facilityName.replace(/"/g, '""')}"`, `"${p.developer.replace(/"/g, '""')}"`, p.capacity ].join(','));
             const csv = "data:text/csv;charset=utf-8," + [headers.join(',')].concat(rows).join('\n');
             const link = document.createElement("a");
             link.setAttribute("href", encodeURI(csv));
@@ -445,5 +447,4 @@
     </script>
 </body>
 </html>
-
 
